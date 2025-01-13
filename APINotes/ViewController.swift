@@ -16,6 +16,14 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var tempOutlet3: UILabel!
     
+    @IBOutlet weak var maxTempOutlet: UILabel!
+    
+    @IBOutlet weak var minTempOutlet: UILabel!
+    
+    @IBOutlet weak var humidityOutlet: UILabel!
+    
+    @IBOutlet weak var windOutlet: UILabel!
+    
     
     
     override func viewDidLoad() {
@@ -43,7 +51,7 @@ class ViewController: UIViewController {
                     // try? means that if it doesn't work, jsonObj will be nil (doesn't catch the error though)
                     // getting the json object from the API
                     if let jsonObj = try? JSONSerialization.jsonObject(with: d, options: .fragmentsAllowed) as! NSDictionary {
-                        //print(jsonObj)
+                        print(jsonObj)
                         if let mainDictionary = jsonObj.value(forKey: "main") as? NSDictionary {
                             print(mainDictionary)
                             if let theTemp = mainDictionary.value(forKey: "temp") {
@@ -52,6 +60,31 @@ class ViewController: UIViewController {
                                     self.tempOutlet.text = "Temp is \(theTemp)"
                                 }
                             }
+                            
+                            if let maxTemp = mainDictionary.value(forKey: "temp_max") {
+                                // happens on the main thread
+                                DispatchQueue.main.async {
+                                    print(maxTemp)
+                                    self.maxTempOutlet.text = "Max temp is \(maxTemp) degrees F"
+                                }
+                            }
+
+                            if let minTemp = mainDictionary.value(forKey: "temp_min") {
+                                // happens on the main thread
+                                DispatchQueue.main.async {
+                                    print(minTemp)
+                                    self.minTempOutlet.text = "Min temp is \(minTemp) degrees F"
+                                }
+                            }
+                            
+                            if let humidity = mainDictionary.value(forKey: "humidity") {
+                                // happens on the main thread
+                                DispatchQueue.main.async {
+                                    print(humidity)
+                                    self.humidityOutlet.text = "Humidity is \(humidity)%"
+                                }
+                            }
+                            
                         }
                         
                         if let sysDictionary = jsonObj.value(forKey: "sys") as? NSDictionary {
@@ -95,6 +128,41 @@ class ViewController: UIViewController {
 
                         }
                         
+                        
+                        if let windDictionary = jsonObj.value(forKey: "wind") as? NSDictionary {
+                            print(windDictionary)
+                            if let windSpeed = windDictionary.value(forKey: "speed") {
+                                var direction = ""
+                                if let windDegree = windDictionary.value(forKey: "deg") as? Double {
+                                    //var direction = "North"
+                                    
+                                    if windDegree >= 0 && windDegree <= 22.5 {
+                                        direction = "North"
+                                    } else if windDegree <= 45 {
+                                        direction = "Northeast"
+                                    } else if windDegree == 90 {
+                                        direction = "East"
+                                    } else if windDegree < 180 {
+                                        direction = "Southeast"
+                                    } else if windDegree == 180 {
+                                        direction = "South"
+                                    } else if windDegree < 270 {
+                                        direction = "Southwest"
+                                    } else if windDegree == 270 {
+                                        direction = "West"
+                                    } else {
+                                        direction = "Northwest"
+                                    }
+                                }
+                                // happens on the main thread
+                                DispatchQueue.main.async {
+                                    self.windOutlet.text = "Wind is \(windSpeed) mph in the direction of \(direction)"
+                                }
+                            }
+                            
+
+                        }
+
 
                     } else {
                         print("Can't convert to json")
