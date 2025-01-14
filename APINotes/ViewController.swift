@@ -37,6 +37,7 @@ class ViewController: UIViewController {
         // creating an object of URLSession class to make an API call
         let session = URLSession.shared
         
+        // must allow arbritrary load in info
         // creating object of URL class (replace the fillers in the API link with the actual latitude and longitude and API key)
         // make it http instead of https (gets rid of the "secure")
         // units = imperial changes units from Kelvins to Farenheit
