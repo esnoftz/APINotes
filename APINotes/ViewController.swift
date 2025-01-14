@@ -136,19 +136,19 @@ class ViewController: UIViewController {
                                 if let windDegree = windDictionary.value(forKey: "deg") as? Double {
                                     //var direction = "North"
                                     
-                                    if windDegree >= 0 && windDegree <= 22.5 {
+                                    if windDegree >= 337.5 && windDegree < 22.5 {
                                         direction = "North"
-                                    } else if windDegree <= 45 {
+                                    } else if windDegree >= 22.5 && windDegree < 67.5 {
                                         direction = "Northeast"
-                                    } else if windDegree == 90 {
+                                    } else if windDegree >= 67.5 && windDegree < 112.5 {
                                         direction = "East"
-                                    } else if windDegree < 180 {
+                                    } else if windDegree >= 112.5 && windDegree < 157.5 {
                                         direction = "Southeast"
-                                    } else if windDegree == 180 {
+                                    } else if windDegree >= 157.5 && windDegree < 202.5 {
                                         direction = "South"
-                                    } else if windDegree < 270 {
+                                    } else if windDegree >= 202.5 && windDegree < 247.5 {
                                         direction = "Southwest"
-                                    } else if windDegree == 270 {
+                                    } else if windDegree >= 247.5 && windDegree < 292.5 {
                                         direction = "West"
                                     } else {
                                         direction = "Northwest"
@@ -156,7 +156,7 @@ class ViewController: UIViewController {
                                 }
                                 // happens on the main thread
                                 DispatchQueue.main.async {
-                                    self.windOutlet.text = "Wind is \(windSpeed) mph in the direction of \(direction)"
+                                    self.windOutlet.text = "Wind is \(windSpeed) mph to the \(direction)"
                                 }
                             }
                             
